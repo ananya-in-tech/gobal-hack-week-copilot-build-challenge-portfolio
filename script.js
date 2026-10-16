@@ -4,6 +4,8 @@ const navAnchors = document.querySelectorAll('.nav-links a');
 const yearElement = document.getElementById('year');
 const navbar = document.getElementById('navbar');
 const heroHeading = document.querySelector('#hero h1');
+const projectGrid = document.getElementById('project-grid');
+const projectsStatus = document.getElementById('projects-status');
 
 if (yearElement) {
   yearElement.textContent = new Date().getFullYear();
@@ -128,3 +130,67 @@ if (navbar) {
     themeToggle.textContent = nextTheme === 'light' ? '☀' : '☾';
   });
 }
+
+const renderProjects = (repos) => {
+  if (!projectGrid) return;
+
+  projectGrid.innerHTML = '';
+
+  repos.forEach((repo) => {
+    const card = document.createElement('a');
+    card.className = 'project-card project-link';
+    card.href = repo.html_url;
+    card.target = '_blank';
+    card.rel = 'noopener noreferrer';
+    card.setAttribute('aria-label', `Open ${repo.name} repository`);
+
+    const title = document.createElement('h3');
+    title.textContent = repo.name;
+
+    const description = document.createElement('p');
+    description.textContent = repo.description || 'No description provided.';
+
+    const meta = document.createElement('div');
+    meta.className = 'project-meta';
+
+    const language = document.createElement('span');
+    language.textContent = `Language: ${repo.language || 'N/A'}`;
+
+    const stars = document.createElement('span');
+    stars.textContent = `⭐ ${repo.stargazers_count}`;
+
+    meta.append(language, stars);
+    card.append(title, description, meta);
+    projectGrid.append(card);
+  });
+};
+
+const loadLatestRepositories = async () => {
+  if (!projectGrid || !projectsStatus) return;
+
+  projectsStatus.textContent = 'Loading repositories...';
+
+  try {
+    const response = await fetch('https://api.github.com/users/priyanshu-1006/repos');
+    if (!response.ok) {
+      throw new Error('Request failed');
+    }
+
+    const repositories = await response.json();
+    const latestRepos = repositories
+      .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
+      .slice(0, 6);
+
+    if (latestRepos.length === 0) {
+      projectsStatus.textContent = 'No repositories available to display right now.';
+      return;
+    }
+
+    renderProjects(latestRepos);
+    projectsStatus.textContent = '';
+  } catch (error) {
+    projectsStatus.textContent = 'Unable to load repositories right now. Please try again later.';
+  }
+};
+
+loadLatestRepositories();
