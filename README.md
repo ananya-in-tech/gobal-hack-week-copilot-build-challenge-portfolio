@@ -1,10 +1,10 @@
-# Priyanshu Chaurasia Portfolio
+# Placeholder Name Portfolio
 
 A responsive single-page developer portfolio built for the **MLH Global Hack Week Copilot Build Challenge** using **GitHub Copilot**.
 
 ## About this project
 
-This project is a personal portfolio website for **Priyanshu Chaurasia** (`priyanshu-1006`) built with plain web technologies (no framework).  
+This project is a personal portfolio website for **Placeholder Name** (`ananya-in-tech`) built with plain web technologies (no framework).  
 It highlights profile information, skills, projects, and contact options with a modern and accessible UI.
 
 ## Features
@@ -31,7 +31,7 @@ It highlights profile information, skills, projects, and contact options with a 
 - **CSS3**
 - **Vanilla JavaScript (ES6+)**
 - **Google Fonts (Inter)**
-- **GitHub REST API** (`/users/priyanshu-1006/repos`)
+- **GitHub REST API** (`/users/ananya-in-tech/repos`)
 
 ## Run locally
 
