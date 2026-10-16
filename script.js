@@ -190,7 +190,7 @@ const loadLatestRepositories = async () => {
   projectsStatus.textContent = 'Loading repositories...';
 
   try {
-    const response = await fetch('https://api.github.com/users/priyanshu-1006/repos');
+    const response = await fetch('https://api.github.com/users/ananya-in-tech/repos');
     if (!response.ok) {
       throw new Error('Request failed');
     }
