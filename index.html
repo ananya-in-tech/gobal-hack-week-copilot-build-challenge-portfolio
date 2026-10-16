@@ -10,10 +10,11 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
   <header>
-    <nav class="navbar" id="navbar">
+    <nav class="navbar" id="navbar" aria-label="Primary navigation">
       <a href="#hero" class="logo">Priyanshu Chaurasia</a>
-      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-controls="nav-links" aria-expanded="false">
         ☰
       </button>
       <ul class="nav-links" id="nav-links">
@@ -26,7 +27,7 @@
     </nav>
   </header>
 
-  <main>
+  <main id="main-content">
     <section id="hero" class="hero section">
       <div class="container">
         <p class="tag">GitHub: <a href="https://github.com/priyanshu-1006" target="_blank" rel="noopener noreferrer">@priyanshu-1006</a></p>
@@ -77,7 +78,26 @@
       <div class="container">
         <h2>Contact</h2>
         <p>Interested in working together? Reach out through GitHub or email.</p>
-        <p>Placeholder: Add preferred email address and social links here.</p>
+        <p>Use the form below to send a quick message.</p>
+        <form id="contact-form" class="contact-form" novalidate>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" autocomplete="name" required aria-describedby="name-error" />
+            <p id="name-error" class="form-error" aria-live="polite"></p>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" required aria-describedby="email-error" />
+            <p id="email-error" class="form-error" aria-live="polite"></p>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" required aria-describedby="message-error"></textarea>
+            <p id="message-error" class="form-error" aria-live="polite"></p>
+          </div>
+          <button class="btn" type="submit">Send Message</button>
+          <p id="form-success" class="form-success" role="status" aria-live="polite"></p>
+        </form>
         <a class="btn" href="https://github.com/priyanshu-1006" target="_blank" rel="noopener noreferrer">Connect on GitHub</a>
       </div>
     </section>

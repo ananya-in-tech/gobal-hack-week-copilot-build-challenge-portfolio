@@ -6,6 +6,7 @@ const navbar = document.getElementById('navbar');
 const heroHeading = document.querySelector('#hero h1');
 const projectGrid = document.getElementById('project-grid');
 const projectsStatus = document.getElementById('projects-status');
+const contactForm = document.getElementById('contact-form');
 
 if (yearElement) {
   yearElement.textContent = new Date().getFullYear();
@@ -19,6 +20,13 @@ if (toggleButton && navLinks) {
     navLinks.classList.toggle('show');
   });
 }
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && navLinks && toggleButton) {
+    navLinks.classList.remove('show');
+    toggleButton.setAttribute('aria-expanded', 'false');
+  }
+});
 
 navAnchors.forEach((anchor) => {
   anchor.addEventListener('click', () => {
@@ -78,13 +86,21 @@ if (heroHeading) {
 
 // 3) Fade-in on scroll with IntersectionObserver
 const fadeElements = document.querySelectorAll('.section, .project-card, .skill-grid span');
+let fadeObserver;
+
+const observeFadeElement = (element) => {
+  if (!element) return;
+  element.classList.add('fade-item');
+
+  if (fadeObserver) {
+    fadeObserver.observe(element);
+  } else {
+    element.classList.add('visible');
+  }
+};
 
 if ('IntersectionObserver' in window) {
-  fadeElements.forEach((element) => {
-    element.classList.add('fade-item');
-  });
-
-  const fadeObserver = new IntersectionObserver(
+  fadeObserver = new IntersectionObserver(
     (entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -96,7 +112,9 @@ if ('IntersectionObserver' in window) {
     { threshold: 0.15, rootMargin: '0px 0px -30px 0px' }
   );
 
-  fadeElements.forEach((element) => fadeObserver.observe(element));
+  fadeElements.forEach((element) => observeFadeElement(element));
+} else {
+  fadeElements.forEach((element) => element.classList.add('visible'));
 }
 
 // 4) Light/dark theme toggle with localStorage
@@ -162,6 +180,7 @@ const renderProjects = (repos) => {
     meta.append(language, stars);
     card.append(title, description, meta);
     projectGrid.append(card);
+    observeFadeElement(card);
   });
 };
 
@@ -194,3 +213,83 @@ const loadLatestRepositories = async () => {
 };
 
 loadLatestRepositories();
+
+const getFieldValue = (id) => {
+  const field = document.getElementById(id);
+  return field ? field.value.trim() : '';
+};
+
+const setFieldError = (id, message) => {
+  const field = document.getElementById(id);
+  const errorField = document.getElementById(`${id}-error`);
+  if (field) {
+    field.setAttribute('aria-invalid', String(Boolean(message)));
+  }
+  if (errorField) {
+    errorField.textContent = message;
+  }
+};
+
+if (contactForm) {
+  const nameInput = document.getElementById('name');
+  const emailInput = document.getElementById('email');
+  const messageInput = document.getElementById('message');
+  const successMessage = document.getElementById('form-success');
+
+  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const clearFormMessages = () => {
+    setFieldError('name', '');
+    setFieldError('email', '');
+    setFieldError('message', '');
+    if (successMessage) {
+      successMessage.textContent = '';
+    }
+  };
+
+  [nameInput, emailInput, messageInput].forEach((input) => {
+    if (!input) return;
+    input.addEventListener('input', () => {
+      setFieldError(input.id, '');
+      if (successMessage) {
+        successMessage.textContent = '';
+      }
+    });
+  });
+
+  contactForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    clearFormMessages();
+
+    const name = getFieldValue('name');
+    const email = getFieldValue('email');
+    const message = getFieldValue('message');
+
+    let hasError = false;
+
+    if (!name) {
+      setFieldError('name', 'Please enter your name.');
+      hasError = true;
+    }
+
+    if (!email) {
+      setFieldError('email', 'Please enter your email.');
+      hasError = true;
+    } else if (!isValidEmail(email)) {
+      setFieldError('email', 'Please enter a valid email address.');
+      hasError = true;
+    }
+
+    if (!message) {
+      setFieldError('message', 'Please enter your message.');
+      hasError = true;
+    }
+
+    if (hasError) return;
+
+    contactForm.reset();
+    if (successMessage) {
+      successMessage.textContent = 'Thanks! Your message has been validated and sent successfully.';
+    }
+  });
+}
