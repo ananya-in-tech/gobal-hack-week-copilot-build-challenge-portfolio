@@ -1,4 +1,4 @@
-# Placeholder Name Portfolio
+# Ananya Portfolio
 
 A responsive single-page developer portfolio built for the **MLH Global Hack Week Copilot Build Challenge** using **GitHub Copilot**.
 
