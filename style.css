@@ -5,7 +5,20 @@
   --text: #e2e8f0;
   --muted: #9fb0ca;
   --accent: #60a5fa;
+  --border: #25314e;
+  --navbar-bg: rgba(11, 17, 32, 0.95);
   --max-width: 1100px;
+}
+
+[data-theme="light"] {
+  --bg: #f3f7ff;
+  --bg-alt: #e8eefb;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #475569;
+  --accent: #2563eb;
+  --border: #cbd5e1;
+  --navbar-bg: rgba(243, 247, 255, 0.95);
 }
 
 * {
@@ -43,9 +56,9 @@ a {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.25rem;
-  background: rgba(11, 17, 32, 0.95);
+  background: var(--navbar-bg);
   backdrop-filter: blur(8px);
-  border-bottom: 1px solid #25314e;
+  border-bottom: 1px solid var(--border);
 }
 
 .logo {
@@ -69,12 +82,24 @@ a {
 
 .nav-toggle {
   display: none;
-  border: 1px solid #25314e;
+  border: 1px solid var(--border);
   background: transparent;
   color: var(--text);
   padding: 0.45rem 0.7rem;
   border-radius: 8px;
   cursor: pointer;
+}
+
+.theme-toggle {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  border-radius: 8px;
+  padding: 0.45rem 0.7rem;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: 0.75rem;
 }
 
 .section {
@@ -91,6 +116,18 @@ a {
 .hero h1 {
   font-size: clamp(2rem, 4vw, 3rem);
   margin: 0.6rem 0 1rem;
+}
+
+.hero-role {
+  color: var(--text);
+  margin-bottom: 0.85rem;
+  font-weight: 500;
+}
+
+.typing-cursor {
+  display: inline-block;
+  color: var(--accent);
+  animation: blink 0.9s steps(1) infinite;
 }
 
 .hero p {
@@ -134,7 +171,7 @@ h2 {
 
 .skill-grid span {
   background: var(--card);
-  border: 1px solid #25314e;
+  border: 1px solid var(--border);
   padding: 0.8rem;
   border-radius: 8px;
   text-align: center;
@@ -149,7 +186,7 @@ h2 {
 
 .project-card {
   background: var(--card);
-  border: 1px solid #25314e;
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1.1rem;
   transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
@@ -171,10 +208,27 @@ h2 {
 }
 
 .footer {
-  border-top: 1px solid #25314e;
+  border-top: 1px solid var(--border);
   padding: 1.2rem 0;
   text-align: center;
   color: var(--muted);
+}
+
+.fade-item {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+.fade-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
 }
 
 @media (max-width: 768px) {
@@ -187,10 +241,10 @@ h2 {
     top: 66px;
     left: 0;
     right: 0;
-    background: #0b1120;
+    background: var(--bg);
     flex-direction: column;
     gap: 0;
-    border-bottom: 1px solid #25314e;
+    border-bottom: 1px solid var(--border);
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
@@ -201,7 +255,7 @@ h2 {
   }
 
   .nav-links li {
-    border-top: 1px solid #1a2744;
+    border-top: 1px solid var(--border);
   }
 
   .nav-links a {
@@ -211,5 +265,10 @@ h2 {
 
   .hero {
     min-height: 70vh;
+  }
+
+  .theme-toggle {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
   }
 }
